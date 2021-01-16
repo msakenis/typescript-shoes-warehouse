@@ -1,10 +1,23 @@
 import React from 'react';
 import { DeleteIcon, EditIcon, InfoOutlineIcon } from '@chakra-ui/icons';
 import { IconButton, Stack } from '@chakra-ui/react';
-import { ConfirmIconGroup } from '../';
-import { func, bool, number } from 'prop-types';
+import { ConfirmIconGroup } from '..';
 
-function ActionIconGroup({
+
+interface Props {
+  
+  handlePreview:()=> void;
+  handleEdit: ()=> void;
+  handleDelete: ()=> void;
+  isDisabled?: boolean;
+  displayConfirmGroup: boolean;
+  handleDecline: ()=> void;
+  handleConfirm: ()=> void;
+  selectedProdId: number;
+  id: number;
+}
+
+const ActionIconGroup: React.FC<Props> = ({
   handlePreview,
   handleEdit,
   handleDelete,
@@ -14,7 +27,7 @@ function ActionIconGroup({
   handleConfirm,
   selectedProdId,
   id,
-}) {
+}) => {
   return displayConfirmGroup && selectedProdId === id ? (
     <ConfirmIconGroup
       handleConfirm={handleConfirm}
@@ -53,16 +66,6 @@ function ActionIconGroup({
   );
 }
 
-ActionIconGroup.propTypes = {
-  handlePreview: func.isRequired,
-  handleEdit: func.isRequired,
-  handleDelete: func.isRequired,
-  isDisabled: bool,
-  displayConfirmGroup: bool.isRequired,
-  handleDecline: func.isRequired,
-  handleConfirm: func.isRequired,
-  selectedProdId: number.isRequired,
-  id: number.isRequired,
-};
+
 
 export default ActionIconGroup;
