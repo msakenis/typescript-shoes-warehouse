@@ -1,8 +1,8 @@
 import { ProductHistoryType, ProductType } from '../../../helpers/SharedTypes';
 
 export const showUpdateBtn = (
-    enteredQntyValues: Record<number, number>,
-    enteredPriceValues: Record<number, number>,
+    enteredQntyValues: Record<number, number | string>,
+    enteredPriceValues: Record<number, number | string>,
     data: ProductType[],
 ): boolean => {
     const qntyValueArr = Object.values(enteredQntyValues).map(Number);
@@ -13,13 +13,13 @@ export const showUpdateBtn = (
         data &&
         !(data.length === 0) && // if no data do not show update button
         !qntyValueArr.includes(NaN) && // case if "-" entered and clicked update
-        // (!qntyValueArr.length === 0 || //check if no values were changed do not show the button update
+        !priceValueArr.includes(NaN) && // case if "-" entered and clicked update
         (!qntyValueArr.every((item) => item === 0) || //check if all values 0 then no need to show button either
             !(JSON.stringify(priceValueArr) === JSON.stringify(defaultPriceArr))) && // check if any changes were made to prices and show button if yes
         !priceValueArr.some((item) => item < 0) // if any of prices are negative hides the update button
     );
 };
-export const setDefaultPrices = (data: ProductType[]): Record<number, number> => {
+export const setDefaultPrices = (data: ProductType[]): Record<number, number | string> => {
     if (data) {
         const dataObj = {};
         data.map((item) => Object.assign(dataObj, { [item.id]: item.price }));
@@ -41,7 +41,7 @@ export const handleNewHistory = (
     productHistory: ProductHistoryType[],
     product: ProductType,
     type: string,
-    enteredQuantity?: number,
+    enteredQuantity?: number | string,
 ): ProductHistoryType[] => {
     let historyArr: number[][] = [];
     let historyValue: number;
@@ -64,4 +64,22 @@ export const handleNewHistory = (
         }
         return item;
     });
+};
+
+export const changeInputValidation = (value: string): boolean => {
+    const re = /^(-?)[\d]*$/;
+    return value === '' || re.test(value);
+};
+
+export const priceInputValidation = (value: string): boolean => {
+    const re = /[+-]?\d+(?:[.,]\d+)?/;
+    return value === '' || re.test(value);
+};
+
+export const objectStringtoNum = (object: Record<number, string | number>): Record<number, number> => {
+    const updatedObj = JSON.parse(JSON.stringify(object)); // deep clone object
+    Object.keys(updatedObj).forEach((key) => {
+        updatedObj[+key] = +updatedObj[+key];
+    });
+    return updatedObj;
 };

@@ -12,7 +12,7 @@ import {
     RadioGroup,
     useToast,
 } from '@chakra-ui/react';
-import { getChosenProduct } from '../../../helpers/sharedHelperFunctions';
+import { getChosenProduct, numberInputValidation } from '../../../helpers/sharedHelperFunctions';
 import { ProductType } from '../../../helpers/SharedTypes';
 
 type EditProductFnTypes = (
@@ -130,15 +130,16 @@ const EditProduct: React.FC = () => {
                                         <FormLabel>Weight (g)</FormLabel>
                                         <Input
                                             type="text"
-                                            onChange={(e) =>
-                                                setFieldValues({
-                                                    ...fieldValues,
-                                                    weight: +e.target.value,
-                                                })
-                                            }
+                                            onChange={(e) => {
+                                                if (numberInputValidation(e.target.value)) {
+                                                    setFieldValues({
+                                                        ...fieldValues,
+                                                        weight: +e.target.value,
+                                                    });
+                                                }
+                                            }}
                                             value={fieldValues.weight}
                                             placeholder="Grams"
-                                            pattern="^[0-9]*$"
                                             maxLength={7}
                                         />
                                         <FormHelperText>weight in grams. E.g 1000</FormHelperText>

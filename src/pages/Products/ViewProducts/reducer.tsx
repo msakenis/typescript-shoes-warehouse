@@ -13,7 +13,10 @@ type Actions =
     | { type: ActionKind.HANDLE_CHECKBOX; payload: { id: number } }
     | {
           type: ActionKind.DELETE_PRODUCT;
-          payload: { id: number; setEnteredPriceValues: React.Dispatch<React.SetStateAction<Record<number, number>>> };
+          payload: {
+              id: number;
+              setEnteredPriceValues: React.Dispatch<React.SetStateAction<Record<number, number | string>>>;
+          };
       }
     | { type: ActionKind.UPDATE_PRODUCTS; payload: UpdateTypes };
 

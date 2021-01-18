@@ -15,10 +15,17 @@ import {
     Text,
     Stack,
 } from '@chakra-ui/react';
-import { ActionIconGroup, NumberField } from '../../../components';
+import { ActionIconGroup, CurrencyInput, NumberField } from '../../../components';
 import { ActionKind } from '../../../actions';
 import { reducer } from './reducer';
-import { setDefaultPrices, showUpdateBtn } from './helperFunctions';
+import {
+    setDefaultPrices,
+    showUpdateBtn,
+    changeInputValidation,
+    priceInputValidation,
+    objectStringtoNum,
+} from './helperFunctions';
+
 import './ViewProducts.css';
 
 const ViewProducts: React.FC = () => {
@@ -27,13 +34,14 @@ const ViewProducts: React.FC = () => {
     const [data, dispatch] = useReducer(reducer, currentProducts); // getting init products data from local storage just to emulate DB
     const [displayConfirmGroup, setDisplayConfirmGroup] = useState(false);
     const [selectedProdId, setSelectedProdId] = useState(0);
-    const [enteredQntyValues, setEnteredQntyValues] = useState<Record<number, number>>({});
+    const [enteredQntyValues, setEnteredQntyValues] = useState<Record<number, number | string>>({});
     const [enteredPriceValues, setEnteredPriceValues] = useState(setDefaultPrices(data));
     const history = useHistory();
     const toast = useToast();
     const productsHistoryJson = localStorage.getItem('productsHistory');
     const productsHistory = productsHistoryJson !== null ? JSON.parse(productsHistoryJson) : [];
 
+    console.log(enteredQntyValues);
     return (
         <Stack w="10xl">
             <form
@@ -43,8 +51,8 @@ const ViewProducts: React.FC = () => {
                     dispatch({
                         type: ActionKind.UPDATE_PRODUCTS,
                         payload: {
-                            quantity: enteredQntyValues,
-                            price: enteredPriceValues,
+                            quantity: objectStringtoNum(enteredQntyValues), // convert to numbers when all action with numbers will be taken
+                            price: objectStringtoNum(enteredPriceValues), // convert to numbers when all action with numbers will be taken
                             productsHistory,
                             toast,
                         },
@@ -101,31 +109,31 @@ const ViewProducts: React.FC = () => {
                                                     min={-9999999}
                                                     isDisabled={!row.active}
                                                     value={enteredQntyValues[row.id] || ''}
-                                                    pattern="^[-+,0-9]*$"
                                                     handleChange={(value) => {
-                                                        setEnteredQntyValues({
-                                                            ...enteredQntyValues,
-                                                            [row.id]: +value,
-                                                        });
+                                                        if (changeInputValidation(value)) {
+                                                            setEnteredQntyValues({
+                                                                ...enteredQntyValues,
+                                                                [row.id]: value,
+                                                            });
+                                                        }
                                                     }}
                                                 />
                                             }
                                         </Td>
                                         <Td>
                                             {
-                                                <NumberField
-                                                    step={0.05}
-                                                    precision={2}
-                                                    max={9999999}
-                                                    min={0}
+                                                <CurrencyInput
                                                     isDisabled={!row.active}
-                                                    value={enteredPriceValues[row.id] || ''}
+                                                    value={enteredPriceValues[row.id]}
                                                     handleChange={(value) => {
-                                                        setEnteredPriceValues({
-                                                            ...enteredPriceValues,
-                                                            [row.id]: +value,
-                                                        });
+                                                        if (priceInputValidation(value)) {
+                                                            setEnteredPriceValues({
+                                                                ...enteredPriceValues,
+                                                                [row.id]: value,
+                                                            });
+                                                        }
                                                     }}
+                                                    id={row.id}
                                                 />
                                             }
                                         </Td>
