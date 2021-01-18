@@ -4,10 +4,10 @@ import Routes from './Routes';
 import { ChakraProvider } from '@chakra-ui/react';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ChakraProvider>
-      <Routes />
-    </ChakraProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <ChakraProvider>
+            <Routes />
+        </ChakraProvider>
+    </React.StrictMode>,
+    document.getElementById('root'),
 );
