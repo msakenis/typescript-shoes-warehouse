@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { NumberField } from '../../../components';
 import { generateUniqueId, createRandomEANNumber, handleProductHistory } from './helperFunctions';
+import { numberInputValidation } from '../../../helpers/sharedHelperFunctions';
 import { History } from 'history';
 import { ProductType } from '../../../helpers/SharedTypes';
 
@@ -146,10 +147,12 @@ const CreateProduct: React.FC = () => {
                                 isDisabled={false}
                                 pattern="^[0-9]*$"
                                 handleChange={(value) => {
-                                    setFieldValues({
-                                        ...fieldValues,
-                                        weight: +value.charAt(0) === 0 ? 0 : +value, // prevent "0000"
-                                    });
+                                    if (numberInputValidation(value)) {
+                                        setFieldValues({
+                                            ...fieldValues,
+                                            weight: +value, // prevent "0000"
+                                        });
+                                    }
                                 }}
                             />
                             <FormHelperText>weight in grams. E.g 1000</FormHelperText>
@@ -160,17 +163,17 @@ const CreateProduct: React.FC = () => {
                         <FormControl id="price" isRequired>
                             <FormLabel>Price (&euro;)</FormLabel>
                             <NumberField
-                                step={0.05}
-                                precision={2}
                                 max={9999999}
                                 value={fieldValues.price}
                                 isDisabled={false}
                                 min={0}
                                 handleChange={(value) => {
-                                    setFieldValues({
-                                        ...fieldValues,
-                                        price: +value.charAt(0) === 0 ? 0 : +value,
-                                    }); // prevent "0000"
+                                    if (numberInputValidation(value)) {
+                                        setFieldValues({
+                                            ...fieldValues,
+                                            price: +value,
+                                        }); // prevent "0000"
+                                    }
                                 }}
                             />
                             <FormHelperText>e.g 100</FormHelperText>
@@ -182,12 +185,13 @@ const CreateProduct: React.FC = () => {
                                 min={0}
                                 value={fieldValues.currentQnty}
                                 isDisabled={false}
-                                pattern="^[0-9]*$"
                                 handleChange={(value) => {
-                                    setFieldValues({
-                                        ...fieldValues,
-                                        currentQnty: +value.charAt(0) === 0 ? 0 : +value, // prevent "0000"
-                                    });
+                                    if (numberInputValidation(value)) {
+                                        setFieldValues({
+                                            ...fieldValues,
+                                            currentQnty: +value, // prevent "0000"
+                                        });
+                                    }
                                 }}
                             />
                             <FormHelperText>e.g 1</FormHelperText>

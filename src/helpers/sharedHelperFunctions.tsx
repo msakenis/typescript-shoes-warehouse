@@ -6,3 +6,8 @@ export const getChosenProduct = (id: number, products: ProductType[]): ProductTy
     // this filter just to emulate db, ussually you fetch one product only. Back-End must do the most of the job
     return product;
 };
+
+export const numberInputValidation = (value: string): boolean => {
+    const re = /^[0-9\b]+$/;
+    return value === '' || re.test(value);
+};

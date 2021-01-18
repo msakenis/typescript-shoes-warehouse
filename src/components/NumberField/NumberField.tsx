@@ -12,10 +12,13 @@ interface NumberFieldProps {
     min: number;
     isDisabled: boolean;
     value: number | string;
-    handleChange: (valueAsString: string, valueAsNumber: number) => void;
+    handleChange?: (valueAsString: string, valueAsNumber: number) => void;
     step?: number;
     precision?: number;
     pattern?: string;
+    handleBlur?: (event: React.FocusEvent<HTMLDivElement>) => void | undefined;
+    handleFocus?: (event: React.FocusEvent<HTMLDivElement>) => void | undefined;
+    readOnly?: boolean;
 }
 
 const NumberField = ({
@@ -27,6 +30,9 @@ const NumberField = ({
     step,
     precision,
     pattern,
+    handleBlur,
+    handleFocus,
+    readOnly,
 }: NumberFieldProps): JSX.Element => {
     return (
         <NumberInput
@@ -39,9 +45,12 @@ const NumberField = ({
             isDisabled={isDisabled}
             value={value}
             onChange={handleChange}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
             step={step}
             precision={precision}
             pattern={pattern}
+            readOnly={readOnly}
         >
             <NumberInputField />
             <NumberInputStepper>
