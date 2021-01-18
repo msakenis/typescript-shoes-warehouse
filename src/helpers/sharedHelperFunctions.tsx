@@ -1,4 +1,4 @@
-import { ProductType } from './SharedTypes';
+import { ProductType, ProductHistoryType } from './SharedTypes';
 
 export const getChosenProduct = (id: number, products: ProductType[]): ProductType => {
     const product = products.filter((product) => product.id === id)[0];
@@ -10,4 +10,17 @@ export const getChosenProduct = (id: number, products: ProductType[]): ProductTy
 export const numberInputValidation = (value: string): boolean => {
     const re = /^[0-9\b]+$/;
     return value === '' || re.test(value);
+};
+
+export const getProducts = (): ProductType[] => {
+    const productsJson = localStorage.getItem('products');
+    const currentProducts = productsJson !== null ? JSON.parse(productsJson) : [];
+
+    return currentProducts;
+};
+export const getProductsHistory = (): ProductHistoryType[] => {
+    const productsHistoryJson = localStorage.getItem('productsHistory');
+    const currentProductsHistory = productsHistoryJson !== null ? JSON.parse(productsHistoryJson) : [];
+
+    return currentProductsHistory;
 };

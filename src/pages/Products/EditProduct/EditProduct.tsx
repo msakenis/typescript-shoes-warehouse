@@ -12,7 +12,7 @@ import {
     RadioGroup,
     useToast,
 } from '@chakra-ui/react';
-import { getChosenProduct, numberInputValidation } from '../../../helpers/sharedHelperFunctions';
+import { getChosenProduct, numberInputValidation, getProducts } from '../../../helpers/sharedHelperFunctions';
 import { ProductType } from '../../../helpers/SharedTypes';
 
 type EditProductFnTypes = (
@@ -41,8 +41,8 @@ const editProduct: EditProductFnTypes = (e, id, fieldValues, currentProducts, to
 
 const EditProduct: React.FC = () => {
     const { id } = useParams<Record<string, string>>();
-    const currentProductsJson = localStorage.getItem('products');
-    const currentProducts = currentProductsJson !== null ? JSON.parse(currentProductsJson) : [];
+
+    const currentProducts = getProducts();
     const product = getChosenProduct(+id, currentProducts);
     const [fieldValues, setFieldValues] = useState(product);
     const toast = useToast();

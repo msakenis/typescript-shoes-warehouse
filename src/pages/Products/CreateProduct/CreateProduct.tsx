@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { NumberField } from '../../../components';
 import { generateUniqueId, createRandomEANNumber, handleProductHistory } from './helperFunctions';
-import { numberInputValidation } from '../../../helpers/sharedHelperFunctions';
+import { numberInputValidation, getProducts } from '../../../helpers/sharedHelperFunctions';
 import { History } from 'history';
 import { ProductType } from '../../../helpers/SharedTypes';
 
@@ -64,9 +64,7 @@ const CreateProduct: React.FC = () => {
         currentQnty: 0,
     };
     const [fieldValues, setFieldValues] = useState<ProductType>(initFieldValues);
-    const currentProductsJson = localStorage.getItem('products');
-    const currentProducts = currentProductsJson !== null ? JSON.parse(currentProductsJson) : [];
-
+    const currentProducts = getProducts();
     const toast = useToast();
     const history = useHistory();
 

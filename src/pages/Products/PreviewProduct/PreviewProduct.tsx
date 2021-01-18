@@ -1,22 +1,20 @@
 import React from 'react';
 import { useParams, useHistory, Redirect } from 'react-router-dom';
 import { Heading, Button, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import { getChosenProduct } from '../../../helpers/sharedHelperFunctions';
+import { getChosenProduct, getProducts, getProductsHistory } from '../../../helpers/sharedHelperFunctions';
 import { ProductDetailsTable } from '../../../components';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { priceHistoryOptions, quantityHistoryOptions } from './ChartOptions';
-import { ProductType } from '../../../helpers/SharedTypes';
+import { ProductHistoryType } from '../../../helpers/SharedTypes';
 
 const PreviewProduct: React.FC = () => {
     const { id } = useParams<Record<string, string>>(); // take router param as product id
-    const productsJson = localStorage.getItem('products');
-    const products = productsJson !== null ? JSON.parse(productsJson) : []; // local storage just to emulate db
+    const products = getProducts(); // local storage just to emulate db
     const product = getChosenProduct(+id, products); // func which gets the product from all products in fake DB
     const history = useHistory();
-    const productsHistoryJson = localStorage.getItem('productsHistory');
-    const productsHistory = productsHistoryJson !== null ? JSON.parse(productsHistoryJson) : [];
-    const productHistory = productsHistory.filter((product: ProductType) => product.id === +id)[0];
+    const productsHistory = getProductsHistory();
+    const productHistory = productsHistory.filter((product: ProductHistoryType) => product.id === +id)[0];
 
     return (
         <>

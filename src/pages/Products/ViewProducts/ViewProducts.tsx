@@ -25,12 +25,11 @@ import {
     priceInputValidation,
     objectStringtoNum,
 } from './helperFunctions';
-
+import { getProducts, getProductsHistory } from '../../../helpers/sharedHelperFunctions';
 import './ViewProducts.css';
 
 const ViewProducts: React.FC = () => {
-    const productsJson = localStorage.getItem('products');
-    const currentProducts = productsJson !== null ? JSON.parse(productsJson) : [];
+    const currentProducts = getProducts();
     const [data, dispatch] = useReducer(reducer, currentProducts); // getting init products data from local storage just to emulate DB
     const [displayConfirmGroup, setDisplayConfirmGroup] = useState(false);
     const [selectedProdId, setSelectedProdId] = useState(0);
@@ -38,8 +37,7 @@ const ViewProducts: React.FC = () => {
     const [enteredPriceValues, setEnteredPriceValues] = useState(setDefaultPrices(data));
     const history = useHistory();
     const toast = useToast();
-    const productsHistoryJson = localStorage.getItem('productsHistory');
-    const productsHistory = productsHistoryJson !== null ? JSON.parse(productsHistoryJson) : [];
+    const productsHistory = getProductsHistory();
 
     console.log(enteredQntyValues);
     return (
