@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import NumberField from '../NumberField/NumberField';
 
-function toCurrency(number: number): string {
+const toCurrency = (number: number): string => {
     const formatter = new Intl.NumberFormat('de-DE', {
         style: 'currency',
         currency: 'EUR',
     });
 
     return formatter.format(number);
-}
+};
 
 interface CurrencyInput {
     handleChange: (valueAsString: string, valueAsNumber: number) => void;
@@ -19,6 +19,7 @@ interface CurrencyInput {
 
 const CurrencyInput = ({ handleChange, value, isDisabled, id }: CurrencyInput): JSX.Element => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
+
     return (
         <div>
             {isEditing && id ? (

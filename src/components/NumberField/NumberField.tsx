@@ -14,7 +14,6 @@ interface NumberFieldProps {
     value: number | string;
     handleChange?: (valueAsString: string, valueAsNumber: number) => void;
     step?: number;
-    precision?: number;
     pattern?: string;
     handleBlur?: (event: React.FocusEvent<HTMLDivElement>) => void | undefined;
     handleFocus?: (event: React.FocusEvent<HTMLDivElement>) => void | undefined;
@@ -28,7 +27,6 @@ const NumberField = ({
     value,
     handleChange,
     step,
-    precision,
     pattern,
     handleBlur,
     handleFocus,
@@ -48,7 +46,6 @@ const NumberField = ({
             onBlur={handleBlur}
             onFocus={handleFocus}
             step={step}
-            precision={precision}
             pattern={pattern}
             readOnly={readOnly}
         >

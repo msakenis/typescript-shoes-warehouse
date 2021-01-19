@@ -5,6 +5,7 @@ import { Stack, Image, Link, Box } from '@chakra-ui/react';
 
 const NavBar = (): JSX.Element => {
     const history = useHistory();
+
     return (
         <Box borderBottom="2px" borderColor="gray.200">
             <Stack maxW="7xl" direction={['column', 'column', 'row']} justify={'space-between'} align="center" m="auto">
