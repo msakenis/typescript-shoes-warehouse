@@ -26,12 +26,13 @@ type EditProductFnTypes = (
 const editProduct: EditProductFnTypes = (e, id, fieldValues, currentProducts, toast) => {
     e.preventDefault();
 
-    const updatedProducts = currentProducts.map((product) => (product.id === id ? fieldValues : product));
+    const updatedProducts = currentProducts.map((product) => (product.id === id ? fieldValues : product)); // sets new field values to the selected id product
 
     localStorage.setItem('products', JSON.stringify(updatedProducts)); // rewrites fake db to new products
+
+    //toast would be called if success status from back-end recieved
     toast({
         title: 'Product updated successfully!',
-
         status: 'success',
         duration: 9000,
         isClosable: true,
@@ -41,15 +42,16 @@ const editProduct: EditProductFnTypes = (e, id, fieldValues, currentProducts, to
 
 const EditProduct: React.FC = () => {
     const { id } = useParams<Record<string, string>>();
-
     const currentProducts = getProducts();
     const product = getChosenProduct(+id, currentProducts);
     const [fieldValues, setFieldValues] = useState(product);
     const toast = useToast();
     const history = useHistory();
+
     return (
         <>
             {
+                // if manually tries to enter /products/1 and no such product, will be redirected to main page
                 product ? (
                     <>
                         <Heading
@@ -62,6 +64,7 @@ const EditProduct: React.FC = () => {
                         >
                             Edit {product.name} {product.type}
                         </Heading>
+
                         <Stack maxW="800px" pt="10">
                             <form
                                 onSubmit={(e) => {
@@ -147,8 +150,8 @@ const EditProduct: React.FC = () => {
                                 </Stack>
 
                                 <RadioGroup
-                                    onChange={(value) =>
-                                        setFieldValues({ ...fieldValues, active: String(value) === 'true' })
+                                    onChange={
+                                        (value) => setFieldValues({ ...fieldValues, active: String(value) === 'true' }) // chakra Radio accepts booleans as strings so converting to boolean
                                     }
                                     value={String(fieldValues.active)}
                                     mt="4"
@@ -162,6 +165,7 @@ const EditProduct: React.FC = () => {
                                 <Button type="submit" w={['100%', '30%', '20%']} mt="8">
                                     Save
                                 </Button>
+
                                 <Button
                                     type="button"
                                     onClick={() => history.push('/products')}

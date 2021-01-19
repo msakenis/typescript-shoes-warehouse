@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams, useHistory, Redirect } from 'react-router-dom';
 import { Heading, Button, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import { getChosenProduct, getProducts, getProductsHistory } from '../../../helpers/sharedHelperFunctions';
 import { ProductDetailsTable } from '../../../components';
+import { getChosenProduct, getProducts, getProductsHistory } from '../../../helpers/sharedHelperFunctions';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { priceHistoryOptions, quantityHistoryOptions } from './ChartOptions';
@@ -18,7 +18,7 @@ const PreviewProduct: React.FC = () => {
 
     return (
         <>
-            {product ? (
+            {product ? ( // if manually tries to enter /products/1 and no such product, will be redirected to main page
                 <>
                     <Heading
                         as="h2"
@@ -31,22 +31,26 @@ const PreviewProduct: React.FC = () => {
                     >
                         {product.name} {product.type}
                     </Heading>
+
                     <Tabs variant="enclosed">
                         <TabList>
                             <Tab>Product Details</Tab>
                             <Tab>Price History</Tab>
                             <Tab>Quantity History</Tab>
                         </TabList>
+
                         <TabPanels>
                             <TabPanel>
                                 <ProductDetailsTable product={product} />
                             </TabPanel>
+
                             <TabPanel>
                                 <HighchartsReact
                                     highcharts={Highcharts}
                                     options={priceHistoryOptions(productHistory.priceHistory, product.name)}
                                 />
                             </TabPanel>
+
                             <TabPanel>
                                 <HighchartsReact
                                     highcharts={Highcharts}

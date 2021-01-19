@@ -39,7 +39,6 @@ const ViewProducts: React.FC = () => {
     const toast = useToast();
     const productsHistory = getProductsHistory();
 
-    console.log(enteredQntyValues);
     return (
         <Stack w="10xl">
             <form
@@ -49,13 +48,13 @@ const ViewProducts: React.FC = () => {
                     dispatch({
                         type: ActionKind.UPDATE_PRODUCTS,
                         payload: {
-                            quantity: objectStringtoNum(enteredQntyValues), // convert to numbers when all action with numbers will be taken
-                            price: objectStringtoNum(enteredPriceValues), // convert to numbers when all action with numbers will be taken
+                            quantity: objectStringtoNum(enteredQntyValues), // convert to numbers when reducer dispathed, we want to work only with numbers
+                            price: objectStringtoNum(enteredPriceValues), // convert to numbers when reducer dispathed, we want to work only with numbers
                             productsHistory,
                             toast,
                         },
                     });
-                    setEnteredQntyValues({});
+                    setEnteredQntyValues({}); // sets inpout values to empty after submited
                 }}
             >
                 <Heading
@@ -68,7 +67,8 @@ const ViewProducts: React.FC = () => {
                 >
                     Products
                 </Heading>
-                {data && data.length !== 0 ? (
+
+                {data && data.length !== 0 ? ( // if no data show text
                     <Table className="table" variant="simple" mt="10">
                         <Thead>
                             <Tr>
@@ -85,6 +85,7 @@ const ViewProducts: React.FC = () => {
                                 <Th>Actions</Th>
                             </Tr>
                         </Thead>
+
                         <Tbody>
                             {data &&
                                 data.map((row, index) => (
@@ -100,6 +101,7 @@ const ViewProducts: React.FC = () => {
                                         <Td>{row.weight / 1000} kg</Td>
                                         <Td>{row.color}</Td>
                                         <Td>{row.currentQnty}</Td>
+
                                         <Td>
                                             {
                                                 <NumberField
@@ -118,6 +120,7 @@ const ViewProducts: React.FC = () => {
                                                 />
                                             }
                                         </Td>
+
                                         <Td>
                                             {
                                                 <CurrencyInput
@@ -135,6 +138,7 @@ const ViewProducts: React.FC = () => {
                                                 />
                                             }
                                         </Td>
+
                                         <Td>
                                             <Checkbox
                                                 colorScheme="green"
@@ -147,6 +151,7 @@ const ViewProducts: React.FC = () => {
                                                 }
                                             />
                                         </Td>
+
                                         <Td>
                                             <ActionIconGroup
                                                 handlePreview={() => history.push(`/products/${row.id}`)}
@@ -176,7 +181,8 @@ const ViewProducts: React.FC = () => {
                 ) : (
                     <Text mt="5">No products, click &quot;Create Product&quot; to add</Text>
                 )}
-                {showUpdateBtn(enteredQntyValues, enteredPriceValues, data) && (
+
+                {showUpdateBtn(enteredQntyValues, enteredPriceValues, data) && ( // validation of inputs. If data entered incorrectly do not show update button
                     <Box mt="4">
                         <Button type="submit" w={['100%', '30%', '20%']}>
                             Update

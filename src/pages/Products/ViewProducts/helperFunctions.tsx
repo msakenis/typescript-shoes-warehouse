@@ -1,24 +1,35 @@
 import { ProductHistoryType, ProductType } from '../../../helpers/SharedTypes';
 
-export const showUpdateBtn = (
-    enteredQntyValues: Record<number, number | string>,
-    enteredPriceValues: Record<number, number | string>,
+type ShowUpdateBtnFn = (
+    qntyValues: Record<number, number | string>,
+    priceValues: Record<number, number | string>,
     data: ProductType[],
-): boolean => {
+) => boolean;
+
+type HandleNewHistoryFn = (
+    productHistory: ProductHistoryType[],
+    product: ProductType,
+    type: string,
+    enteredQuantity?: number | string,
+) => ProductHistoryType[];
+
+export const showUpdateBtn: ShowUpdateBtnFn = (enteredQntyValues, enteredPriceValues, data) => {
+    //converting everything to number
     const qntyValueArr = Object.values(enteredQntyValues).map(Number);
     const priceValueArr = Object.values(enteredPriceValues).map(Number);
     const defaultPriceArr = Object.values(setDefaultPrices(data)).map(Number);
 
     return (
-        data &&
+        data && // empty table - no btn
         !(data.length === 0) && // if no data do not show update button
-        !qntyValueArr.includes(NaN) && // case if "-" entered and clicked update
-        !priceValueArr.includes(NaN) && // case if "-" entered and clicked update
+        !qntyValueArr.includes(NaN) && // case if "-/e" entered and clicked update
+        !priceValueArr.includes(NaN) && // case if "-/e" entered and clicked update
         (!qntyValueArr.every((item) => item === 0) || //check if all values 0 then no need to show button either
             !(JSON.stringify(priceValueArr) === JSON.stringify(defaultPriceArr))) && // check if any changes were made to prices and show button if yes
         !priceValueArr.some((item) => item < 0) // if any of prices are negative hides the update button
     );
 };
+
 export const setDefaultPrices = (data: ProductType[]): Record<number, number | string> => {
     if (data) {
         const dataObj = {};
@@ -37,14 +48,10 @@ export const handleDeleteHistory = (id: number): void => {
     localStorage.setItem('productsHistory', JSON.stringify(updatedProductHistory));
 };
 
-export const handleNewHistory = (
-    productHistory: ProductHistoryType[],
-    product: ProductType,
-    type: string,
-    enteredQuantity?: number | string,
-): ProductHistoryType[] => {
+export const handleNewHistory: HandleNewHistoryFn = (productHistory, product, type, enteredQuantity) => {
     let historyArr: number[][] = [];
     let historyValue: number;
+
     return productHistory.map((item: ProductHistoryType) => {
         if (item.id === product.id) {
             if (type === 'priceHistory') {
@@ -78,8 +85,10 @@ export const priceInputValidation = (value: string): boolean => {
 
 export const objectStringtoNum = (object: Record<number, string | number>): Record<number, number> => {
     const updatedObj = JSON.parse(JSON.stringify(object)); // deep clone object
+
     Object.keys(updatedObj).forEach((key) => {
         updatedObj[+key] = +updatedObj[+key];
     });
+
     return updatedObj;
 };

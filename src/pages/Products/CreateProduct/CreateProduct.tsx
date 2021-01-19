@@ -18,20 +18,22 @@ import { numberInputValidation, getProducts } from '../../../helpers/sharedHelpe
 import { History } from 'history';
 import { ProductType } from '../../../helpers/SharedTypes';
 
-// type IProps = RouteComponentProps;
-const addProduct = (
+type AddProductFn = (
     e: React.FormEvent<HTMLFormElement>,
     fieldValues: ProductType,
-    products: ProductType[],
+    prods: ProductType[],
     toast: (a: Record<string, unknown>) => void,
     history: History,
-) => {
+) => void;
+
+const addProduct: AddProductFn = (e, fieldValues, products, toast, history) => {
     e.preventDefault();
 
     const currentProducts = products || [];
-    const id = generateUniqueId(currentProducts);
+    const id = generateUniqueId(currentProducts); // fn which generates unique id
 
     currentProducts.push({
+        // additionally adding unique generated id to new product
         ...fieldValues,
         id,
     });
@@ -80,6 +82,7 @@ const CreateProduct: React.FC = () => {
             >
                 Create Product
             </Heading>
+
             <Stack maxW="800px" pt="10">
                 <form
                     onSubmit={(e) => {
@@ -148,7 +151,7 @@ const CreateProduct: React.FC = () => {
                                     if (numberInputValidation(value)) {
                                         setFieldValues({
                                             ...fieldValues,
-                                            weight: +value, // prevent "0000"
+                                            weight: +value,
                                         });
                                     }
                                 }}
@@ -170,7 +173,7 @@ const CreateProduct: React.FC = () => {
                                         setFieldValues({
                                             ...fieldValues,
                                             price: +value,
-                                        }); // prevent "0000"
+                                        });
                                     }
                                 }}
                             />
@@ -187,7 +190,7 @@ const CreateProduct: React.FC = () => {
                                     if (numberInputValidation(value)) {
                                         setFieldValues({
                                             ...fieldValues,
-                                            currentQnty: +value, // prevent "0000"
+                                            currentQnty: +value,
                                         });
                                     }
                                 }}
@@ -199,7 +202,7 @@ const CreateProduct: React.FC = () => {
                         onChange={(value) =>
                             setFieldValues({
                                 ...fieldValues,
-                                active: String(value) === 'true', // prevent "0000"
+                                active: String(value) === 'true',
                             })
                         }
                         value={String(fieldValues.active)}

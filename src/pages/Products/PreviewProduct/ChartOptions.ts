@@ -1,4 +1,6 @@
-export const priceHistoryOptions = (priceHistory: number[][], productName: string): Record<string, unknown> => {
+type OptionsTypes = (priceHistory: number[][], productName: string) => Record<string, unknown>;
+
+export const priceHistoryOptions: OptionsTypes = (priceHistory, productName) => {
     return {
         chart: {
             type: 'line',
@@ -34,7 +36,7 @@ export const priceHistoryOptions = (priceHistory: number[][], productName: strin
         ],
     };
 };
-export const quantityHistoryOptions = (quantityHistory: number[][], productName: string): Record<string, unknown> => {
+export const quantityHistoryOptions: OptionsTypes = (quantityHistory, productName) => {
     return {
         chart: {
             type: 'line',

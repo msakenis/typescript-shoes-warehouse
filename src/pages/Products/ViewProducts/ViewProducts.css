@@ -1,78 +1,80 @@
+/* This css added to make responsive table only */
+
 @media only screen and (max-device-width: 1200px) {
-  /* Force table to not be like tables anymore */
-  .table thead,
-  .table tbody,
-  .table th,
-  .table td,
-  .table tr {
-    display: block;
-  }
+    /* Force table to not be like tables anymore */
+    .table thead,
+    .table tbody,
+    .table th,
+    .table td,
+    .table tr {
+        display: block;
+    }
 
-  /* Hide table headers (but not display: none;, for accessibility) */
-  .table thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
+    /* Hide table headers (but not display: none;, for accessibility) */
+    .table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
 
-  .table tr {
-    border: 1px solid #ccc;
-  }
+    .table tr {
+        border: 1px solid #ccc;
+    }
 
-  .table td {
-    /* Behave  like a "row" */
-    border: none;
-    border-bottom: 1px solid #eee;
-    position: relative;
-    padding-left: 50% !important;
-  }
+    .table td {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50% !important;
+    }
 
-  .table td:before {
-    /* Now like a table header */
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    font-weight: 700;
-    color: #4a5568;
-  }
+    .table td:before {
+        /* Now like a table header */
+        position: absolute;
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 700;
+        color: #4a5568;
+    }
 
-  /*
+    /*
 	Label the data
 	*/
-  .table td:nth-of-type(1):before {
-    content: 'NO.';
-  }
-  .table td:nth-of-type(2):before {
-    content: 'Name';
-  }
-  .table td:nth-of-type(3):before {
-    content: 'EAN';
-  }
-  .table td:nth-of-type(4):before {
-    content: 'TYPE';
-  }
-  .table td:nth-of-type(5):before {
-    content: 'WEIGHT';
-  }
-  .table td:nth-of-type(6):before {
-    content: 'COLOR';
-  }
-  .table td:nth-of-type(7):before {
-    content: 'QUANTITY';
-  }
-  .table td:nth-of-type(8):before {
-    content: 'CHANGE QUANTITY (+,-)';
-  }
-  .table td:nth-of-type(9):before {
-    content: 'PRICE (€)';
-  }
-  .table td:nth-of-type(10):before {
-    content: 'ACTIVE';
-  }
-  .table td:nth-of-type(11):before {
-    content: 'ACTIONS';
-  }
+    .table td:nth-of-type(1):before {
+        content: 'NO.';
+    }
+    .table td:nth-of-type(2):before {
+        content: 'Name';
+    }
+    .table td:nth-of-type(3):before {
+        content: 'EAN';
+    }
+    .table td:nth-of-type(4):before {
+        content: 'TYPE';
+    }
+    .table td:nth-of-type(5):before {
+        content: 'WEIGHT';
+    }
+    .table td:nth-of-type(6):before {
+        content: 'COLOR';
+    }
+    .table td:nth-of-type(7):before {
+        content: 'QUANTITY';
+    }
+    .table td:nth-of-type(8):before {
+        content: 'CHANGE QUANTITY (+,-)';
+    }
+    .table td:nth-of-type(9):before {
+        content: 'PRICE (€)';
+    }
+    .table td:nth-of-type(10):before {
+        content: 'ACTIVE';
+    }
+    .table td:nth-of-type(11):before {
+        content: 'ACTIONS';
+    }
 }
