@@ -12,9 +12,9 @@ import {
     RadioGroup,
     useToast,
 } from '@chakra-ui/react';
-import { NumberField } from '../../../components';
+import { NumberField, CurrencyInput } from '../../../components';
 import { generateUniqueId, createRandomEANNumber, handleProductHistory } from './helperFunctions';
-import { numberInputValidation, getProducts } from '../../../helpers/sharedHelperFunctions';
+import { numberInputValidation, priceInputValidation, getProducts } from '../../../helpers/sharedHelperFunctions';
 import { History } from 'history';
 import { ProductType } from '../../../helpers/SharedTypes';
 
@@ -55,17 +55,17 @@ const addProduct: AddProductFn = (e, fieldValues, products, toast, history) => {
 
 const CreateProduct: React.FC = () => {
     const initFieldValues = {
-        id: 0,
+        id: 1,
         name: '',
         type: '',
         ean: createRandomEANNumber(),
         color: '',
         weight: 0,
         active: true,
-        price: 0,
+        price: '',
         currentQnty: 0,
     };
-    const [fieldValues, setFieldValues] = useState<ProductType>(initFieldValues);
+    const [fieldValues, setFieldValues] = useState(initFieldValues);
     const currentProducts = getProducts();
     const toast = useToast();
     const history = useHistory();
@@ -86,7 +86,7 @@ const CreateProduct: React.FC = () => {
             <Stack maxW="800px" pt="10">
                 <form
                     onSubmit={(e) => {
-                        addProduct(e, fieldValues, currentProducts, toast, history);
+                        addProduct(e, { ...fieldValues, price: +fieldValues.price }, currentProducts, toast, history);
                     }}
                 >
                     <Stack direction={['column', 'row']}>
@@ -163,22 +163,22 @@ const CreateProduct: React.FC = () => {
                     <Stack direction={['column', 'row']} mt="5">
                         <FormControl id="price" isRequired>
                             <FormLabel>Price (&euro;)</FormLabel>
-                            <NumberField
-                                max={9999999}
-                                value={fieldValues.price}
+                            <CurrencyInput
                                 isDisabled={false}
-                                min={0}
+                                value={fieldValues.price}
                                 handleChange={(value) => {
-                                    if (numberInputValidation(value)) {
+                                    if (priceInputValidation(value)) {
                                         setFieldValues({
                                             ...fieldValues,
-                                            price: +value,
+                                            price: value,
                                         });
                                     }
                                 }}
+                                id={fieldValues.id}
                             />
                             <FormHelperText>e.g 100</FormHelperText>
                         </FormControl>
+
                         <FormControl id="quantity" isRequired>
                             <FormLabel>Quantity (pcs)</FormLabel>
                             <NumberField

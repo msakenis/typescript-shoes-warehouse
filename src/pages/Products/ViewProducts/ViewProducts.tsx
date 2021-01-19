@@ -18,14 +18,13 @@ import {
 import { ActionIconGroup, CurrencyInput, NumberField } from '../../../components';
 import { ActionKind } from '../../../actions';
 import { reducer } from './reducer';
+import { setDefaultPrices, showUpdateBtn, objectStringtoNum } from './helperFunctions';
 import {
-    setDefaultPrices,
-    showUpdateBtn,
-    changeInputValidation,
+    getProducts,
+    getProductsHistory,
     priceInputValidation,
-    objectStringtoNum,
-} from './helperFunctions';
-import { getProducts, getProductsHistory } from '../../../helpers/sharedHelperFunctions';
+    changeInputValidation,
+} from '../../../helpers/sharedHelperFunctions';
 import './ViewProducts.css';
 
 const ViewProducts: React.FC = () => {

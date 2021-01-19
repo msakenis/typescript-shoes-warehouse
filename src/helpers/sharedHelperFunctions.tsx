@@ -12,6 +12,16 @@ export const numberInputValidation = (value: string): boolean => {
     return value === '' || re.test(value);
 };
 
+export const priceInputValidation = (value: string): boolean => {
+    const re = /[+]?\d+(?:[.,]\d+)?/;
+    return value === '' || re.test(value);
+};
+
+export const changeInputValidation = (value: string): boolean => {
+    const re = /^(-?)[\d]*$/;
+    return value === '' || re.test(value);
+};
+
 export const getProducts = (): ProductType[] => {
     const productsJson = localStorage.getItem('products');
     const currentProducts = productsJson !== null ? JSON.parse(productsJson) : [];

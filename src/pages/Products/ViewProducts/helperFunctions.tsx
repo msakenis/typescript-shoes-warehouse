@@ -73,16 +73,6 @@ export const handleNewHistory: HandleNewHistoryFn = (productHistory, product, ty
     });
 };
 
-export const changeInputValidation = (value: string): boolean => {
-    const re = /^(-?)[\d]*$/;
-    return value === '' || re.test(value);
-};
-
-export const priceInputValidation = (value: string): boolean => {
-    const re = /[+-]?\d+(?:[.,]\d+)?/;
-    return value === '' || re.test(value);
-};
-
 export const objectStringtoNum = (object: Record<number, string | number>): Record<number, number> => {
     const updatedObj = JSON.parse(JSON.stringify(object)); // deep clone object
 
